@@ -1,8 +1,14 @@
 # argparse-sh
 
+### About This Fork
+
+This is a fork of the [original `argparse.sh` project](https://github.com/yaacov/argparse-sh), tailored specifically for ZSH on macOS. This version enhances the original by adjusting its utility to ZSH, providing a more targeted and refined tool for macOS users.
+
+Special thanks to [Yaacov](https://github.com/yaacov), the author of the original `argparse.sh` project, for creating foundation!
+
 ### Introduction
 
-`argparse.sh` contains bash functions that streamlines the management of command-line arguments in Bash scripts, enhancing the robustness and user-friendliness of your code. Its syntax is intentionally designed to be familiar to those who have experience with argument parsing libraries, providing a smooth and intuitive scripting experience.
+`argparse.sh` contains functions that streamline the management of command-line arguments in ZSH scripts, enhancing the robustness and user-friendliness of your code, specifically on macOS. Its syntax is intentionally designed to be familiar to those who have experience with argument parsing libraries, providing a smooth and intuitive scripting experience for ZSH users.
 
 ### Features
 
@@ -20,10 +26,10 @@
 clone the script repository.
 
 ```bash
-git clone https://github.com/yaacov/argparse-sh.git
+git clone https://github.com/ncreated/argparse-zsh.git
 ```
 
-You can now source `argparse.sh` in your Bash scripts to leverage its argument parsing capabilities.
+You can now source `argparse.sh` in your ZSH scripts to leverage its argument parsing capabilities.
 
 ```bash
 source /path/to/argparse.sh
