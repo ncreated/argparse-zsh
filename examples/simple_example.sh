@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Source the argparse script
 source ./argparse.sh

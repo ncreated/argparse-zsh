@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Source the argparse script
 source ./argparse.sh
@@ -24,3 +24,4 @@ fi
 
 # Usage:
 # ./flags_example.sh --debug
+# ./flags_example.sh
