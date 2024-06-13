@@ -1,10 +1,10 @@
-# argparse-sh
+# argparse-zsh
 
 ### About This Fork
 
-This is a fork of the [original `argparse.sh` project](https://github.com/yaacov/argparse-sh), tailored specifically for ZSH on macOS. This version enhances the original by adjusting its utility to ZSH, providing a more targeted and refined tool for macOS users.
+This is a fork of the [original `argparse.sh` project](https://github.com/yaacov/argparse-sh), tailored specifically for ZSH on macOS 🧑‍💻. This version enhances the original by adjusting its utility to ZSH, providing a more targeted and refined tool for macOS users.
 
-Special thanks to [Yaacov](https://github.com/yaacov), the author of the original `argparse.sh` project, for creating foundation!
+🍻 Special thanks to [Yaacov](https://github.com/yaacov), the author of the original `argparse.sh` project, for creating foundation!
 
 ### Introduction
 
