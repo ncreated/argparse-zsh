@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-# argparse.sh contains zsh functions that streamlines the management of
+# argparse.sh contains zsh functions that streamlines parsing of
 # command-line arguments in zsh scripts 
 
 # Example:
@@ -39,6 +39,11 @@ set_description() {
     SCRIPT_DESCRIPTION="$1"
 }
 
+# Escape argument name
+escape() {
+    echo "$1" | tr '-' '_' # replace '-' with '_'
+}
+
 # Function to define a command-line argument
 # Usage: define_arg "arg_name" ["default"] ["help text"] ["action"] ["required"]
 define_arg() {
@@ -58,11 +63,13 @@ parse_args() {
 
         if [[ -n "${ARG_PROPERTIES["$key,help"]}" ]]; then
             if [[ "${ARG_PROPERTIES["$key,action"]}" == "store_true" ]]; then
-                export "$key"="true"
+                escaped_key=$(escape $key)
+                export "$escaped_key"="true"
                 shift # past the flag argument
             else
                 [[ -z "$2" || "$2" == --* ]] && display_error "Missing value for argument --$key"
-                export "$key"="$2"
+                escaped_key=$(escape $key)
+                export "$escaped_key"="$2"
                 shift # past argument
                 shift # past value
             fi
@@ -75,14 +82,16 @@ parse_args() {
     for arg in "${(k)ARG_PROPERTIES[@]}"; do
         arg_name="${arg%%,*}" # Extract argument name (drop suffix)
         arg_name="${arg_name#\"}" # Extract argument name (drop prefix)
-        [[ "${ARG_PROPERTIES["$arg_name,required"]}" == "true" && -z "${(P)arg_name}" ]] && display_error "Missing required argument --$arg_name"
+        escaped_arg_name=$(escape $arg_name)
+        [[ "${ARG_PROPERTIES["$arg_name,required"]}" == "true" && -z "${(P)escaped_arg_name}" ]] && display_error "Missing required argument --$arg_name"
     done
 
     # Set defaults for any unset arguments
     for arg in "${(k)ARG_PROPERTIES[@]}"; do
         arg_name="${arg%%,*}" # Extract argument name (drop suffix)
         arg_name="${arg_name#\"}" # Extract argument name (drop prefix)
-        [[ -z "${(P)arg_name}" ]] && export "$arg_name"="${ARG_PROPERTIES["$arg_name,default"]}"
+        escaped_arg_name=$(escape $arg_name)
+        [[ -z "${(P)escaped_arg_name}" ]] && export "$escaped_arg_name"="${ARG_PROPERTIES["$arg_name,default"]}"
     done
 }
 
@@ -91,14 +100,14 @@ parse_args() {
 show_help() {
     [[ -n "$SCRIPT_DESCRIPTION" ]] && echo -e "$SCRIPT_DESCRIPTION\n"
 
-    echo "options:"
+    echo "Options:"
     for arg in "${(k)ARG_PROPERTIES[@]}"; do
         arg_name="${arg%%,*}" # Extract argument name (drop suffix)
         arg_name="${arg_name#\"}" # Extract argument name (drop prefix)
         arg_prop=${arg##*,} # Extract argument property (drop prefix)
         arg_prop="${arg_prop%%\"}" # Extract argument property (drop suffix)
         [[ "$arg_prop" == "help" ]] && {
-            [[ "${ARG_PROPERTIES["$arg_name,action"]}" != "store_true" ]] && echo "  --$arg_name [TXT]: ${ARG_PROPERTIES[$arg]}" || echo "  --$arg_name: ${ARG_PROPERTIES[$arg]}"
+            [[ "${ARG_PROPERTIES["$arg_name,action"]}" != "store_true" ]] && echo "  --$arg_name: ${ARG_PROPERTIES[$arg]}" || echo "  --$arg_name: ${ARG_PROPERTIES[$arg]}"
         }
     done
 }

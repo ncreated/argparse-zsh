@@ -51,25 +51,31 @@ read -r -d '' expected_output <<'EOF'
 Output will be saved to: ./output.txt
 Verbose mode enabled.
 Operating in mode: test
+--dashed-flag: false
+--dashed-arg: dashed arg value
 EOF
-actual_output=$(./examples/optional_required_example.sh --mode "test" --verbose)
-assert "./examples/optional_required_example.sh --mode 'test' --verbose" "$expected_output" "$actual_output"
+actual_output=$(./examples/optional_required_example.sh --mode "test" --verbose --dashed-arg "dashed arg value")
+assert "./examples/optional_required_example.sh --mode 'test' --verbose --dashed-arg 'dashed arg value'" "$expected_output" "$actual_output"
 
 read -r -d '' expected_output <<'EOF'
 Output will be saved to: /path/to/file
 Operating in mode: prod
+--dashed-flag: true
+--dashed-arg: default arg value
 EOF
-actual_output=$(./examples/optional_required_example.sh --mode "prod" --output "/path/to/file")
-assert "./examples/optional_required_example.sh --mode 'prod' --output '/path/to/file'" "$expected_output" "$actual_output"
+actual_output=$(./examples/optional_required_example.sh --mode "prod" --output "/path/to/file" --dashed-flag)
+assert "./examples/optional_required_example.sh --mode 'prod' --output '/path/to/file' --dashed-flag" "$expected_output" "$actual_output"
 
 # Test -h
 read -r -d '' expected_output <<'EOF'
 This script demonstrates optional and required arguments.
 
-options:
-  --output [TXT]: Path to output file
+Options:
+  --output: Path to output file
   --verbose: Enable verbose mode
-  --mode [TXT]: Operation mode
+  --mode: Operation mode
+  --dashed-arg: Argument with '-'
+  --dashed-flag: Flag with '-'
 EOF
 actual_output=$(./examples/optional_required_example.sh -h)
 assert "./examples/optional_required_example.sh -h" "$expected_output" "$actual_output"
